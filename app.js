@@ -37,3 +37,33 @@ closeSideBar.addEventListener('click', () => {
   sideBar.classList.remove('open-sidebar');
   sideBar.classList.add('close-sidebar');
 });
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('contactForm');
+    const message = document.getElementById('formMessage');
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const data = new FormData(form);
+        const action = form.action;
+        message.innerHTML = "Enviando...";
+        try {
+            const response = await fetch(action, {
+                method: "POST",
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            if (response.ok) {
+                message.innerHTML = "<span style='color: #7ABA49;'>¡Mensaje enviado correctamente!</span>";
+                form.reset();
+            } else {
+                message.innerHTML = "<span style='color: #ff4d4d;'>Ocurrió un error. Intenta de nuevo.</span>";
+            }
+        } catch (error) {
+            message.innerHTML = "<span style='color: #ff4d4d;'>Ocurrió un error. Intenta de nuevo.</span>";
+        }
+    });
+});
